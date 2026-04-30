@@ -55,15 +55,6 @@
     .logo-tag{font-size:9px;color:var(--text3);font-weight:500;letter-spacing:0.1em;text-transform:uppercase;margin-left:4px;}
     .header-phone{font-size:13px;color:var(--text2);font-weight:500;}
     .header-phone strong{color:var(--text);}
-    .header-gift{
-      display:flex;align-items:center;gap:7px;
-      background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);
-      border-radius:100px;padding:5px 14px;
-      font-size:12px;font-weight:700;color:var(--gold);
-      cursor:pointer;transition:all 150ms;white-space:nowrap;
-    }
-    .header-gift:hover{background:rgba(251,191,36,0.18);}
-    @media(max-width:600px){.header-gift span.hg-label{display:none;}}
 
     /* ── PAGE GRID ── */
     .page{
@@ -230,6 +221,38 @@
     .form-success p{font-size:14px;color:var(--text2);line-height:1.6;}
     .form-success .ph{font-size:20px;font-weight:700;color:var(--red);margin-top:12px;}
 
+    /* ── PROMO STARBURST BADGE ── */
+    .promo-star-outer{
+      position:fixed;top:72px;right:16px;
+      z-index:300;cursor:pointer;
+      width:100px;height:100px;
+      animation:starPulse 2.8s ease-in-out infinite;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .promo-star-bg{
+      position:absolute;inset:0;
+      background:var(--gold);
+      clip-path:polygon(50% 0%,54% 31%,67% 8%,65% 38%,81% 19%,75% 46%,95% 32%,84% 56%,100% 50%,84% 64%,95% 78%,75% 72%,81% 91%,65% 80%,67% 100%,54% 85%,50% 100%,46% 85%,33% 100%,35% 80%,19% 91%,25% 72%,5% 78%,16% 64%,0% 50%,16% 56%,5% 32%,25% 46%,19% 19%,35% 38%,33% 8%,46% 31%);
+    }
+    .promo-star-inner{
+      position:absolute;inset:0;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      color:#1a1200;text-align:center;
+      gap:1px;user-select:none;
+    }
+    .psi-icon{font-size:18px;line-height:1;}
+    .psi-free{font-size:9px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;}
+    .psi-main{font-size:11px;font-weight:900;line-height:1.15;text-transform:uppercase;}
+    @keyframes starPulse{
+      0%,100%{transform:scale(1) rotate(-4deg);}
+      50%{transform:scale(1.1) rotate(4deg);}
+    }
+    @media(max-width:860px){
+      .promo-star-outer{width:82px;height:82px;top:68px;right:10px;}
+      .psi-main{font-size:10px;}
+    }
+
     /* ── FREE GIFT CALLOUT ── */
     .gift{
       margin-top:24px;
@@ -304,13 +327,18 @@
     <span class="logo-text">RIN</span>
     <span class="logo-tag">Driver Network Canada</span>
   </div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <button class="header-gift" onclick="giftClick()">
-      🎁 <span class="hg-label">Free Quotation Tools</span> — Register to Unlock
-    </button>
-    <div class="header-phone">Questions? <strong>647-473-1338</strong></div>
-  </div>
+  <div class="header-phone">Questions? <strong>647-473-1338</strong></div>
 </header>
+
+<!-- PROMO STARBURST — upper right corner -->
+<div class="promo-star-outer" onclick="giftClick()" title="Get your free quotation tools">
+  <div class="promo-star-bg"></div>
+  <div class="promo-star-inner">
+    <span class="psi-icon">🎁</span>
+    <span class="psi-free">FREE</span>
+    <span class="psi-main">QUOTE<br>TOOLS</span>
+  </div>
+</div>
 
 <!-- MAIN LAYOUT -->
 <div class="page">
