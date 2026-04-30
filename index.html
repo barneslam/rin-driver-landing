@@ -221,6 +221,39 @@
     .form-success p{font-size:14px;color:var(--text2);line-height:1.6;}
     .form-success .ph{font-size:20px;font-weight:700;color:var(--red);margin-top:12px;}
 
+    /* ── FREE GIFT CALLOUT ── */
+    .gift{
+      margin-top:24px;
+      background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(251,191,36,0.03) 100%);
+      border:1px solid rgba(251,191,36,0.25);
+      border-radius:16px;
+      padding:20px 22px;
+      position:relative;overflow:hidden;
+    }
+    .gift::before{
+      content:'';position:absolute;top:-30px;right:-30px;
+      width:100px;height:100px;border-radius:50%;
+      background:rgba(251,191,36,0.06);
+    }
+    .gift-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);
+      border-radius:100px;padding:3px 12px;
+      font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;
+      color:var(--gold);margin-bottom:10px;
+    }
+    .gift h3{font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-0.3px;}
+    .gift p{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:14px;}
+    .gift-link{
+      display:inline-flex;align-items:center;gap:7px;
+      background:var(--gold);color:#1a1200;
+      border-radius:8px;padding:9px 18px;
+      font-size:13px;font-weight:800;letter-spacing:-0.2px;
+      transition:opacity 150ms;text-decoration:none;
+    }
+    .gift-link:hover{opacity:0.88;}
+    .gift-fine{font-size:11px;color:var(--text3);margin-top:8px;margin-bottom:0;}
+
     /* ── MOBILE ── */
     @media(max-width:860px){
       header{padding:0 20px;}
@@ -329,6 +362,19 @@
         <div class="stat-l">Province-wide</div>
       </div>
     </div>
+
+    <!-- FREE GIFT CALLOUT -->
+    <div class="gift">
+      <div class="gift-badge">🎁 Free Gift for Registered Drivers</div>
+      <h3>Free Job Quote Tool — Keep It Forever</h3>
+      <p>Once you register, you get free access to our tow quote calculator. Know exactly what a job pays before you move — no surprises, no math.</p>
+      <a href="https://rintowquote.online" target="_blank" rel="noopener" class="gift-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Try the Quote Tool Free
+      </a>
+      <p class="gift-fine">No commitment. No subscription. No credit card. Free for all RIN drivers.</p>
+    </div>
+
   </div>
 
   <!-- RIGHT: FORM -->
