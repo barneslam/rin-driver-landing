@@ -223,7 +223,7 @@
 
     /* ── PROMO STARBURST BADGE ── */
     .promo-star-outer{
-      position:fixed;top:72px;right:16px;
+      position:absolute;top:-10px;right:-10px;
       z-index:300;cursor:pointer;
       width:100px;height:100px;
       animation:starPulse 2.8s ease-in-out infinite;
@@ -249,7 +249,7 @@
       50%{transform:scale(1.1) rotate(4deg);}
     }
     @media(max-width:860px){
-      .promo-star-outer{width:82px;height:82px;top:68px;right:10px;}
+      .promo-star-outer{width:82px;height:82px;top:-8px;right:-8px;}
       .psi-main{font-size:10px;}
     }
 
@@ -330,15 +330,6 @@
   <div class="header-phone">Questions? <strong>647-473-1338</strong></div>
 </header>
 
-<!-- PROMO STARBURST — upper right corner -->
-<div class="promo-star-outer" onclick="giftClick()" title="Get your free quotation tools">
-  <div class="promo-star-bg"></div>
-  <div class="promo-star-inner">
-    <span class="psi-icon">🎁</span>
-    <span class="psi-free">FREE</span>
-    <span class="psi-main">QUOTE<br>TOOLS</span>
-  </div>
-</div>
 
 <!-- MAIN LAYOUT -->
 <div class="page">
@@ -425,7 +416,18 @@
   </div>
 
   <!-- RIGHT: FORM -->
-  <div class="form-col">
+  <div class="form-col" style="position:relative;">
+
+    <!-- PROMO STARBURST — top-right corner of form card -->
+    <div class="promo-star-outer" onclick="giftClick()" title="Get your free quotation tools">
+      <div class="promo-star-bg"></div>
+      <div class="promo-star-inner">
+        <span class="psi-icon">🎁</span>
+        <span class="psi-free">FREE</span>
+        <span class="psi-main">QUOTE<br>TOOLS</span>
+      </div>
+    </div>
+
     <div class="form-card">
 
       <div id="formWrap">
