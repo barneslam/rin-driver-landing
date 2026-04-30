@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#05091a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>RIN Driver Network — More Jobs. Fair Dispatch. Faster Payouts.</title>
+  <meta name="description" content="Join Ontario's tow driver network. Consistent work. On-time payments. 90% payout paid in 24 hours. No motor clubs. You're in control.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:    #05091a;
+      --bg2:   #0c1428;
+      --bg3:   #162040;
+      --bd:    #1e2d50;
+      --bd2:   #2e4070;
+      --text:  #f0f4ff;
+      --text2: #9aabc8;
+      --text3: #5a7090;
+      --red:   #e94560;
+      --green: #34d399;
+      --gold:  #fbbf24;
+      --blue:  #3b82f6;
+      --blue-l:#60a5fa;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+    html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── BACKGROUND ── */
+    body::before{
+      content:'';
+      position:fixed;inset:0;z-index:0;
+      background:
+        radial-gradient(ellipse 80% 50% at 80% 90%, rgba(233,69,96,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 40% at 20% 20%, rgba(59,130,246,0.06) 0%, transparent 50%);
+      pointer-events:none;
+    }
+
+    /* ── HEADER ── */
+    header{
+      position:sticky;top:0;z-index:200;
+      background:rgba(5,9,26,0.95);backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--bd);
+      padding:0 40px;height:60px;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .logo{display:flex;align-items:center;gap:9px;}
+    .logo-dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);animation:blink 2s infinite;}
+    .logo-text{font-size:19px;font-weight:800;letter-spacing:-0.5px;}
+    .logo-tag{font-size:9px;color:var(--text3);font-weight:500;letter-spacing:0.1em;text-transform:uppercase;margin-left:4px;}
+    .header-phone{font-size:13px;color:var(--text2);font-weight:500;}
+    .header-phone strong{color:var(--text);}
+
+    /* ── PAGE GRID ── */
+    .page{
+      position:relative;z-index:1;
+      min-height:calc(100vh - 60px);
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:0;
+      max-width:1120px;
+      margin:0 auto;
+      padding:0 40px;
+      align-items:center;
+    }
+
+    /* ── LEFT COPY ── */
+    .copy{
+      padding:60px 52px 60px 0;
+      animation:fadeUp 0.7s ease both;
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(233,69,96,0.08);border:1px solid rgba(233,69,96,0.25);
+      border-radius:100px;padding:5px 14px;
+      font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+      color:var(--red);margin-bottom:24px;
+    }
+    .eyebrow::before{content:'●';font-size:8px;animation:blink 1.5s infinite;}
+
+    /* Headline: all-caps bold matching Facebook cover */
+    .copy h1{
+      font-size:clamp(36px,4.8vw,60px);
+      font-weight:900;
+      line-height:1.0;
+      letter-spacing:-1px;
+      text-transform:uppercase;
+      margin-bottom:16px;
+    }
+    .copy h1 .line1{display:block;color:var(--text);}
+    .copy h1 .line2{display:block;color:var(--text);}
+    .copy h1 .line3{display:block;color:var(--red);}
+
+    .copy .lead{
+      font-size:16px;color:var(--text2);
+      line-height:1.65;max-width:460px;
+      margin-bottom:36px;
+    }
+    .copy .lead strong{color:var(--text);}
+
+    /* ── FEATURE CARDS (4-grid) ── */
+    .features{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:36px;
+    }
+    .feat{
+      background:rgba(255,255,255,0.03);
+      border:1px solid var(--bd);
+      border-radius:14px;
+      padding:16px 18px;
+      transition:border-color 200ms;
+    }
+    .feat:hover{border-color:var(--bd2);}
+    .feat-icon{
+      width:36px;height:36px;border-radius:8px;
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:10px;font-size:17px;
+    }
+    .feat-icon.green{background:rgba(52,211,153,0.1);}
+    .feat-icon.red  {background:rgba(233,69,96,0.1);}
+    .feat-icon.gold {background:rgba(251,191,36,0.1);}
+    .feat-icon.blue {background:rgba(96,165,250,0.1);}
+    .feat-title{font-size:12px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--text);margin-bottom:4px;}
+    .feat-desc{font-size:12px;color:var(--text3);line-height:1.5;}
+
+    /* stats row */
+    .stats{display:flex;gap:0;border:1px solid var(--bd);border-radius:14px;overflow:hidden;}
+    .stat{flex:1;padding:16px 14px;text-align:center;border-right:1px solid var(--bd);}
+    .stat:last-child{border-right:none;}
+    .stat-n{font-size:26px;font-weight:900;letter-spacing:-1px;line-height:1;margin-bottom:3px;}
+    .stat-n.red {color:var(--red);}
+    .stat-n.green{color:var(--green);}
+    .stat-n.gold {color:var(--gold);}
+    .stat-n.blue {color:var(--blue-l);}
+    .stat-l{font-size:10px;color:var(--text3);font-weight:500;}
+
+    /* ── RIGHT FORM ── */
+    .form-col{
+      padding:40px 0 40px 0;
+      animation:fadeUp 0.7s 0.15s ease both;
+    }
+    .form-card{
+      background:rgba(12,20,40,0.95);
+      border:1px solid var(--bd2);
+      border-radius:20px;
+      padding:36px 32px;
+      backdrop-filter:blur(20px);
+      box-shadow:0 24px 80px rgba(0,0,0,0.5);
+    }
+    .form-card h2{font-size:22px;font-weight:800;letter-spacing:-0.4px;margin-bottom:4px;}
+    .form-sub{font-size:13px;color:var(--text3);margin-bottom:24px;}
+
+    /* contact picker */
+    .contact-btn{
+      width:100%;padding:12px;
+      background:rgba(96,165,250,0.07);border:1.5px dashed rgba(96,165,250,0.3);
+      border-radius:11px;color:var(--blue-l);font-size:13px;font-weight:600;
+      cursor:pointer;margin-bottom:12px;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      transition:all 150ms;font-family:'Inter',sans-serif;
+    }
+    .contact-btn:hover{background:rgba(96,165,250,0.13);border-color:rgba(96,165,250,0.5);}
+    .contact-btn:active{transform:scale(0.98);}
+    .contact-btn.hidden{display:none;}
+    .or-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:11px;color:var(--bd2);}
+    .or-row::before,.or-row::after{content:'';flex:1;height:1px;background:var(--bd);}
+    .or-row.hidden{display:none;}
+
+    /* fields */
+    .field{margin-bottom:12px;}
+    .field label{display:block;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:5px;}
+    .field input,.field select{
+      width:100%;padding:13px 15px;
+      background:var(--bg3);border:1.5px solid var(--bd);
+      border-radius:10px;font-size:15px;
+      color:var(--text);font-family:'Inter',sans-serif;
+      outline:none;transition:border-color 150ms;
+      -webkit-appearance:none;
+    }
+    .field input:focus,.field select:focus{border-color:var(--red);}
+    .field input::placeholder{color:var(--text3);}
+    .field select option{background:var(--bg3);}
+
+    /* legal */
+    .legal{
+      display:flex;align-items:flex-start;gap:9px;
+      font-size:12px;color:var(--text3);line-height:1.5;
+      margin:14px 0 18px;
+    }
+    .legal input{margin-top:2px;width:15px;height:15px;accent-color:var(--red);flex-shrink:0;cursor:pointer;}
+    .legal a{color:var(--red);text-decoration:underline;cursor:pointer;}
+
+    /* submit */
+    .btn-submit{
+      width:100%;padding:15px;
+      background:var(--red);color:white;
+      border:none;border-radius:10px;
+      font-size:16px;font-weight:800;
+      cursor:pointer;transition:all 150ms;
+      font-family:'Inter',sans-serif;letter-spacing:-0.2px;
+    }
+    .btn-submit:hover{opacity:0.88;}
+    .btn-submit:active{transform:scale(0.98);}
+    .btn-submit:disabled{opacity:0.4;cursor:not-allowed;}
+    .form-note{text-align:center;font-size:11px;color:var(--text3);margin-top:10px;}
+
+    /* error / success */
+    .form-err{display:none;background:rgba(233,69,96,0.08);border:1px solid rgba(233,69,96,0.25);border-radius:8px;padding:10px 13px;font-size:13px;color:#f87171;margin-bottom:12px;}
+    .form-err.show{display:block;}
+    .form-success{display:none;text-align:center;padding:12px 0;}
+    .form-success.show{display:block;}
+    .form-success .si{font-size:52px;margin-bottom:16px;}
+    .form-success h3{font-size:21px;font-weight:800;margin-bottom:10px;}
+    .form-success p{font-size:14px;color:var(--text2);line-height:1.6;}
+    .form-success .ph{font-size:20px;font-weight:700;color:var(--red);margin-top:12px;}
+
+    /* ── MOBILE ── */
+    @media(max-width:860px){
+      header{padding:0 20px;}
+      .header-phone{display:none;}
+      .page{grid-template-columns:1fr;padding:0 20px;align-items:start;}
+      .copy{padding:36px 0 0;}
+      .copy h1{font-size:clamp(30px,9vw,46px);}
+      .form-col{padding:24px 0 48px;}
+      .features{gap:10px;}
+      .stats{flex-wrap:wrap;}
+      .stat{min-width:45%;}
+    }
+    @media(max-width:420px){
+      .features{grid-template-columns:1fr;}
+    }
+
+    /* ── MODAL ── */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;align-items:flex-end;justify-content:center;}
+    .modal-bg.open{display:flex;}
+    .modal{background:var(--bg2);border:1px solid var(--bd);border-radius:20px 20px 0 0;width:100%;max-width:500px;max-height:78vh;overflow-y:auto;padding:28px 24px 40px;}
+    .modal-handle{width:40px;height:4px;background:var(--bd2);border-radius:2px;margin:0 auto 20px;}
+    .modal h2{font-size:18px;font-weight:800;margin-bottom:14px;}
+    .modal h3{font-size:13px;font-weight:700;color:var(--red);margin:14px 0 5px;}
+    .modal p{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:6px;}
+    .modal-close{display:block;width:100%;padding:14px;background:var(--bg3);border:none;border-radius:10px;color:var(--text);font-size:15px;font-weight:600;cursor:pointer;margin-top:20px;font-family:'Inter',sans-serif;}
+
+    /* ── FOOTER ── */
+    footer{position:relative;z-index:1;text-align:center;padding:16px 20px 28px;font-size:12px;color:var(--text3);border-top:1px solid var(--bd);}
+    footer a{color:var(--text3);cursor:pointer;}
+    footer a:hover{color:var(--red);}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <span class="logo-text">RIN</span>
+    <span class="logo-tag">Driver Network Canada</span>
+  </div>
+  <div class="header-phone">Questions? <strong>647-473-1338</strong></div>
+</header>
+
+<!-- MAIN LAYOUT -->
+<div class="page">
+
+  <!-- LEFT: COPY -->
+  <div class="copy">
+    <div class="eyebrow">Now recruiting drivers across Ontario</div>
+    <h1>
+      <span class="line1">More Jobs.</span>
+      <span class="line2">Fair Dispatch.</span>
+      <span class="line3">Faster Payouts.</span>
+    </h1>
+    <p class="lead">Join the RIN Driver Network. <strong>Consistent work. On-time payments.</strong> You're in control — see the rate before you move, get paid in 24 hours, no motor clubs.</p>
+
+    <!-- 4 feature cards matching Facebook page -->
+    <div class="features">
+      <div class="feat">
+        <div class="feat-icon green">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        </div>
+        <div class="feat-title">More Jobs</div>
+        <div class="feat-desc">Access more opportunities across all of Ontario — dispatched straight to your phone.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon blue">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="feat-title">Fair Dispatch</div>
+        <div class="feat-desc">Smart job allocation based on proximity and availability — not favouritism.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon red">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="feat-title">Faster Payouts</div>
+        <div class="feat-desc">90% payout. Paid within 24 hours of job confirmation. No 30-day wait.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon gold">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="feat-title">Driver First</div>
+        <div class="feat-desc">Built for tow drivers, by people who understand the road. No hidden fees.</div>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-n red">90%</div>
+        <div class="stat-l">Your payout</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n green">24h</div>
+        <div class="stat-l">Payment</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n gold">$0</div>
+        <div class="stat-l">Monthly fee</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n blue">ON</div>
+        <div class="stat-l">Province-wide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="form-col">
+    <div class="form-card">
+
+      <div id="formWrap">
+        <h2>Apply to Drive</h2>
+        <p class="form-sub">Takes 30 seconds. We'll call you within 24 hours.</p>
+
+        <div class="form-err" id="formErr"></div>
+
+        <!-- Contact Picker — Android Chrome -->
+        <button class="contact-btn hidden" id="contactBtn" onclick="pickContact()">
+          <span>📱</span> Fill from My Contacts
+        </button>
+        <div class="or-row hidden" id="orRow">or enter manually</div>
+
+        <div class="field">
+          <label>Your Name</label>
+          <input type="text" id="f_name" placeholder="Full name"
+            autocomplete="name" autocapitalize="words" enterkeyhint="next">
+        </div>
+        <div class="field">
+          <label>Mobile Number</label>
+          <input type="tel" id="f_phone" placeholder="(647) 000-0000"
+            autocomplete="tel" inputmode="tel" enterkeyhint="done"
+            oninput="fmtPhone(this)">
+        </div>
+        <div class="field">
+          <label>Driver Type</label>
+          <select id="f_type">
+            <option value="">Select one</option>
+            <option value="independent">Independent / Freelance</option>
+            <option value="company">Company Driver</option>
+            <option value="owner_operator">Owner-Operator (own truck)</option>
+          </select>
+        </div>
+
+        <label class="legal">
+          <input type="checkbox" id="chk_agree">
+          <span>I agree to the <a onclick="openModal()">Terms &amp; Conditions and Privacy Policy</a> and consent to RIN contacting me about driver opportunities. (CASL)</span>
+        </label>
+
+        <button class="btn-submit" id="submitBtn" onclick="doSubmit()">
+          Apply to Drive →
+        </button>
+        <p class="form-note">
+          Questions? Text <strong style="color:var(--text2);">647-473-1338</strong>
+          &nbsp;·&nbsp;<a onclick="openModal()" style="color:var(--red);">Privacy Policy</a>
+        </p>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="form-success" id="formSuccess">
+        <div class="si">🚛</div>
+        <h3>You're on the list.</h3>
+        <p>We'll call or text you within 24 hours to complete your driver profile and get you dispatching.</p>
+        <div class="ph">647-473-1338</div>
+        <p style="margin-top:6px;font-size:12px;">Text us anytime with questions.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end .page -->
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Roadside Intelligence Network — Ontario, Canada &nbsp;·&nbsp;
+  <a onclick="openModal()">Terms &amp; Conditions</a> &nbsp;·&nbsp;
+  <a onclick="openModal()">Privacy Policy</a> &nbsp;·&nbsp;
+  rin-network@outlook.com</p>
+</footer>
+
+<!-- TERMS MODAL -->
+<div class="modal-bg" id="tcModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>Terms &amp; Privacy</h2>
+
+    <h3>Independent Contractor</h3>
+    <p>Joining the RIN driver network does not create an employment relationship. You are an independent contractor responsible for your own licensing, insurance, and equipment.</p>
+
+    <h3>Payout &amp; Fees</h3>
+    <p>RIN charges a platform fee of 10% per completed job. You receive 90% of the customer-confirmed total. The rate is confirmed before you accept any job. No hidden fees or deductions.</p>
+
+    <h3>Payment Terms</h3>
+    <p>Payments are processed within 24 hours of job completion and customer confirmation. RIN is not liable for delays caused by incorrect banking information.</p>
+
+    <h3>CASL Consent</h3>
+    <p>By submitting this form, you expressly consent to receiving commercial electronic messages (SMS, email) from Roadside Intelligence Network about driver opportunities and network updates. You may withdraw consent at any time by texting STOP to 647-473-1338.</p>
+
+    <h3>Privacy (PIPEDA)</h3>
+    <p>Your name, phone number, and driver type are collected solely to onboard you to the RIN driver network. Your information is stored securely, never sold, and processed in compliance with Canada's Personal Information Protection and Electronic Documents Act (PIPEDA). Contact rin-network@outlook.com to access or delete your data.</p>
+
+    <h3>Governing Law</h3>
+    <p>These terms are governed by the laws of the Province of Ontario, Canada.</p>
+
+    <button class="modal-close" onclick="closeModal()">Got it — Close</button>
+  </div>
+</div>
+
+<script>
+  const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MDc2MjYsImV4cCI6MjA1OTI4MzYyNn0.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
+
+  // Contact Picker API (Android Chrome)
+  if ('contacts' in navigator && 'ContactsManager' in window) {
+    document.getElementById('contactBtn').classList.remove('hidden');
+    document.getElementById('orRow').classList.remove('hidden');
+  }
+
+  async function pickContact() {
+    try {
+      const c = await navigator.contacts.select(['name','tel'], {multiple:false});
+      if (c.length) {
+        if (c[0].name?.[0]) document.getElementById('f_name').value = c[0].name[0];
+        if (c[0].tel?.[0])  document.getElementById('f_phone').value = fmtRaw(c[0].tel[0]);
+      }
+    } catch(e) {}
+  }
+
+  function fmtRaw(r) {
+    const d = r.replace(/\D/g,'').slice(-10);
+    return d.length===10 ? `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}` : r;
+  }
+  function fmtPhone(el) {
+    const d = el.value.replace(/\D/g,'').slice(0,10);
+    if      (d.length>=7) el.value=`(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+    else if (d.length>=4) el.value=`(${d.slice(0,3)}) ${d.slice(3)}`;
+    else                  el.value=d;
+  }
+
+  async function doSubmit() {
+    const name  = document.getElementById('f_name').value.trim();
+    const phone = document.getElementById('f_phone').value.trim();
+    const type  = document.getElementById('f_type').value;
+    const agree = document.getElementById('chk_agree').checked;
+
+    document.getElementById('formErr').classList.remove('show');
+
+    if (!name)                              { showErr('Please enter your name.'); return; }
+    if (phone.replace(/\D/g,'').length<10) { showErr('Please enter a valid 10-digit phone number.'); return; }
+    if (!type)                              { showErr('Please select your driver type.'); return; }
+    if (!agree)                             { showErr('Please agree to the Terms & Conditions to continue.'); return; }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    try {
+      const res = await fetch(`${SB_URL}/rest/v1/marketing_leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json',
+          'apikey': SB_KEY,
+          'Authorization': `Bearer ${SB_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          contact_name:  name,
+          phone:         '+1' + phone.replace(/\D/g,''),
+          inquiry_type:  'driver_applicant',
+          page:          '/roadside-ai-landing',
+          referrer:      document.referrer || null,
+          message:       `Driver type: ${type} | CASL: YES | Source: drive-my-own.netlify.app`,
+        })
+      });
+      if (!res.ok && res.status !== 201) throw new Error();
+      document.getElementById('formWrap').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+    } catch(e) {
+      showErr('Something went wrong. Please text 647-473-1338 directly.');
+      btn.disabled = false;
+      btn.textContent = 'Apply to Drive →';
+    }
+  }
+
+  function showErr(msg) {
+    const el = document.getElementById('formErr');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  function openModal() {
+    document.getElementById('tcModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('tcModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
+</body>
+</html>
