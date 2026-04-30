@@ -55,6 +55,15 @@
     .logo-tag{font-size:9px;color:var(--text3);font-weight:500;letter-spacing:0.1em;text-transform:uppercase;margin-left:4px;}
     .header-phone{font-size:13px;color:var(--text2);font-weight:500;}
     .header-phone strong{color:var(--text);}
+    .header-gift{
+      display:flex;align-items:center;gap:7px;
+      background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);
+      border-radius:100px;padding:5px 14px;
+      font-size:12px;font-weight:700;color:var(--gold);
+      cursor:pointer;transition:all 150ms;white-space:nowrap;
+    }
+    .header-gift:hover{background:rgba(251,191,36,0.18);}
+    @media(max-width:600px){.header-gift span.hg-label{display:none;}}
 
     /* ── PAGE GRID ── */
     .page{
@@ -295,7 +304,12 @@
     <span class="logo-text">RIN</span>
     <span class="logo-tag">Driver Network Canada</span>
   </div>
-  <div class="header-phone">Questions? <strong>647-473-1338</strong></div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button class="header-gift" onclick="giftClick()">
+      🎁 <span class="hg-label">Free Quote Tool</span> — Register to Unlock
+    </button>
+    <div class="header-phone">Questions? <strong>647-473-1338</strong></div>
+  </div>
 </header>
 
 <!-- MAIN LAYOUT -->
@@ -364,15 +378,15 @@
     </div>
 
     <!-- FREE GIFT CALLOUT -->
-    <div class="gift">
+    <div class="gift" id="giftSection">
       <div class="gift-badge">🎁 Free Gift for Registered Drivers</div>
       <h3>Free Job Quote Tool — Keep It Forever</h3>
-      <p>Once you register, you get free access to our tow quote calculator. Know exactly what a job pays before you move — no surprises, no math.</p>
-      <a href="https://rintowquote.online" target="_blank" rel="noopener" class="gift-link">
+      <p>Know exactly what a job pays before you move. Register free — no commitment, no subscription, no credit card.</p>
+      <button onclick="giftClick()" class="gift-link" style="border:none;cursor:pointer;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Try the Quote Tool Free
-      </a>
-      <p class="gift-fine">No commitment. No subscription. No credit card. Free for all RIN drivers.</p>
+        Get My Free Quote Tool
+      </button>
+      <p class="gift-fine">Register in 30 seconds → unlock the tool → keep it free forever.</p>
     </div>
 
   </div>
@@ -428,20 +442,33 @@
         </p>
       </div>
 
-      <!-- SUCCESS STATE -->
+      <!-- SUCCESS STATE: Step 1 — Driver App -->
       <div class="form-success" id="formSuccess">
         <div class="si">🚛</div>
         <h3>Application received!</h3>
-        <p>We got you. Ready to set up your driver account and start receiving jobs?</p>
-        <button onclick="showAppPrompt()" class="btn-submit" style="margin-top:20px;">
+        <p>Step 1 of 2 — Set up your driver account to start receiving jobs.</p>
+        <button onclick="showAppPrompt()" class="btn-submit" style="margin-top:16px;">
           Set Up My Driver Account →
         </button>
-        <button onclick="showSuccessOnly()" style="display:block;width:100%;margin-top:10px;padding:12px;background:transparent;border:1px solid var(--bd);border-radius:10px;color:var(--text3);font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;">
-          Not right now
+        <button onclick="skipToQuoteTool()" style="display:block;width:100%;margin-top:10px;padding:12px;background:transparent;border:1px solid var(--bd);border-radius:10px;color:var(--text3);font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;">
+          Skip — go to free quote tool
         </button>
       </div>
 
-      <!-- LATE SUCCESS (after declining prompt) -->
+      <!-- SUCCESS STATE: Step 2 — Quote Tool (shown after app prompt) -->
+      <div class="form-success" id="formSuccessQuote" style="display:none;">
+        <div class="si">🎁</div>
+        <h3>Your free tool is unlocked!</h3>
+        <p>Step 2 of 2 — Open your free tow quote calculator. Know every job's payout before you move.</p>
+        <a href="https://rintowquote.online" target="_blank" rel="noopener"
+          onclick="track('quote_tool_opened',{})"
+          class="btn-submit" style="display:block;text-align:center;text-decoration:none;margin-top:16px;padding:15px;">
+          Open Free Quote Tool →
+        </a>
+        <p style="font-size:12px;color:var(--text3);margin-top:10px;">No login needed. Works on any phone.</p>
+      </div>
+
+      <!-- FINAL: declined both -->
       <div class="form-success" id="formSuccessSimple" style="display:none;">
         <div class="si">✓</div>
         <h3>You're on the list.</h3>
@@ -514,23 +541,69 @@
 
 <script>
   const SB_URL = 'https://zyoszbmahxnfcokuzkuv.supabase.co';
-  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MDc2MjYsImV4cCI6MjA1OTI4MzYyNn0.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5b3N6Ym1haHhuZmNva3V6a3V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDU3OTMsImV4cCI6MjA4OTA4MTc5M30.Ilz4RYTcgZU3IMnABg0eV7iAfFcC0iykyl4DOln-mjY';
 
-  // Contact Picker API (Android Chrome)
+  // ── GPS: request on load, store for every event ───────────────
+  let _gps = null;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      p => { _gps = { lat: p.coords.latitude, lng: p.coords.longitude, acc: Math.round(p.coords.accuracy) }; },
+      () => {},
+      { timeout: 8000, maximumAge: 60000 }
+    );
+  }
+
+  // ── Agentic event tracker → Supabase marketing_events ────────
+  let _submittedPhone = '';
+  let _submittedName  = '';
+  const _sid = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).slice(2);
+
+  function track(event_name, meta) {
+    fetch(`${SB_URL}/rest/v1/marketing_events`, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'return=minimal' },
+      body: JSON.stringify({
+        event_name,
+        session_id:   _sid,
+        page:         '/drive-my-own',
+        referrer:     document.referrer || null,
+        user_agent:   navigator.userAgent,
+        gps_lat:      _gps ? _gps.lat : null,
+        gps_lng:      _gps ? _gps.lng : null,
+        gps_acc_m:    _gps ? _gps.acc : null,
+        phone:        _submittedPhone ? ('+1' + _submittedPhone.replace(/\D/g,'')) : null,
+        contact_name: _submittedName || null,
+        meta:         meta || {},
+      }),
+    }).catch(()=>{});
+  }
+
+  // Track page load + first interaction
+  window.addEventListener('load', () => track('page_load', { w: window.innerWidth, h: window.innerHeight, mobile: window.innerWidth < 768 }));
+
+  // ── Contact Picker API (Android Chrome) ──────────────────────
   if ('contacts' in navigator && 'ContactsManager' in window) {
     document.getElementById('contactBtn').classList.remove('hidden');
     document.getElementById('orRow').classList.remove('hidden');
   }
-
   async function pickContact() {
     try {
       const c = await navigator.contacts.select(['name','tel'], {multiple:false});
       if (c.length) {
         if (c[0].name?.[0]) document.getElementById('f_name').value = c[0].name[0];
         if (c[0].tel?.[0])  document.getElementById('f_phone').value = fmtRaw(c[0].tel[0]);
+        track('contact_picker_used', {});
       }
     } catch(e) {}
   }
+
+  // Track first form interaction
+  let _formStarted = false;
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('f_name').addEventListener('focus', () => {
+      if (!_formStarted) { _formStarted = true; track('form_start', { gift_source: _giftClicked }); }
+    });
+  });
 
   function fmtRaw(r) {
     const d = r.replace(/\D/g,'').slice(-10);
@@ -543,86 +616,89 @@
     else                  el.value=d;
   }
 
+  // ── Gift CTA — gates the quote tool behind the form ───────────
+  let _giftClicked = false;
+  function giftClick() {
+    _giftClicked = true;
+    track('gift_cta_click', {});
+    const wrap = document.getElementById('formWrap');
+    if (wrap && wrap.style.display !== 'none') {
+      document.querySelector('.form-card').scrollIntoView({ behavior:'smooth', block:'center' });
+      setTimeout(() => document.getElementById('f_name').focus(), 400);
+    }
+  }
+
+  // ── Form submit ───────────────────────────────────────────────
   async function doSubmit() {
     const name  = document.getElementById('f_name').value.trim();
     const phone = document.getElementById('f_phone').value.trim();
     const type  = document.getElementById('f_type').value;
     const agree = document.getElementById('chk_agree').checked;
-
     document.getElementById('formErr').classList.remove('show');
-
     if (!name)                              { showErr('Please enter your name.'); return; }
     if (phone.replace(/\D/g,'').length<10) { showErr('Please enter a valid 10-digit phone number.'); return; }
     if (!type)                              { showErr('Please select your driver type.'); return; }
     if (!agree)                             { showErr('Please agree to the Terms & Conditions to continue.'); return; }
-
     const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.textContent = 'Submitting...';
-
+    btn.disabled = true; btn.textContent = 'Submitting...';
     try {
       const res = await fetch(`${SB_URL}/rest/v1/marketing_leads`, {
         method: 'POST',
-        headers: {
-          'Content-Type':'application/json',
-          'apikey': SB_KEY,
-          'Authorization': `Bearer ${SB_KEY}`,
-          'Prefer': 'return=minimal'
-        },
+        headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'return=minimal' },
         body: JSON.stringify({
           contact_name:  name,
           phone:         '+1' + phone.replace(/\D/g,''),
           inquiry_type:  'driver_applicant',
-          page:          '/roadside-ai-landing',
+          page:          '/drive-my-own',
           referrer:      document.referrer || null,
-          message:       `Driver type: ${type} | CASL: YES | Source: drive-my-own.netlify.app`,
+          message:       `type:${type} | CASL:YES | GPS:${_gps ? `${_gps.lat.toFixed(4)},${_gps.lng.toFixed(4)}` : 'none'} | gift:${_giftClicked}`,
         })
       });
       if (!res.ok && res.status !== 201) throw new Error();
       _submittedPhone = phone;
       _submittedName  = name;
+      track('form_submit', { driver_type: type, gift_source: _giftClicked, has_gps: !!_gps });
       document.getElementById('formWrap').style.display = 'none';
       document.getElementById('formSuccess').classList.add('show');
     } catch(e) {
       showErr('Something went wrong. Please text 647-473-1338 directly.');
-      btn.disabled = false;
-      btn.textContent = 'Apply to Drive →';
+      btn.disabled = false; btn.textContent = 'Apply to Drive →';
     }
   }
 
   function showErr(msg) {
     const el = document.getElementById('formErr');
-    el.textContent = msg;
-    el.classList.add('show');
+    el.textContent = msg; el.classList.add('show');
   }
 
-  // App prompt — shown after successful form submit
-  let _submittedPhone = '';
-  let _submittedName  = '';
-
+  // ── App prompt (Step 1 post-submit) ──────────────────────────
   function showAppPrompt() {
-    const modal = document.getElementById('appPromptModal');
-    modal.classList.add('open');
+    track('app_prompt_shown', {});
+    document.getElementById('appPromptModal').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
-
   function closeAppPrompt() {
     document.getElementById('appPromptModal').classList.remove('open');
     document.body.style.overflow = '';
   }
-
   function goToDriverApp() {
-    const phone = _submittedPhone.replace(/\D/g, '');
+    track('app_prompt_accepted', {});
+    const phone = _submittedPhone.replace(/\D/g,'');
     const name  = encodeURIComponent(_submittedName);
     closeAppPrompt();
-    window.open(
-      `https://x-tow-driver.netlify.app?phone=${phone}&name=${name}&mode=register`,
-      '_blank', 'noopener'
-    );
-  }
-
-  function showSuccessOnly() {
+    window.open(`https://x-tow-driver.netlify.app?phone=${phone}&name=${name}&mode=register`,'_blank','noopener');
+    // Advance to Step 2: quote tool
     document.getElementById('formSuccess').style.display = 'none';
+    document.getElementById('formSuccessQuote').style.display = 'block';
+  }
+  function skipToQuoteTool() {
+    track('app_prompt_skipped', {});
+    document.getElementById('formSuccess').style.display = 'none';
+    document.getElementById('formSuccessQuote').style.display = 'block';
+  }
+  function showSuccessOnly() {
+    track('quote_tool_declined', {});
+    document.getElementById('formSuccessQuote').style.display = 'none';
     document.getElementById('formSuccessSimple').style.display = 'block';
   }
 
