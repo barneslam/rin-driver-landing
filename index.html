@@ -385,16 +385,23 @@
       <!-- SUCCESS STATE -->
       <div class="form-success" id="formSuccess">
         <div class="si">🚛</div>
-        <h3>You're in — let's get you registered.</h3>
-        <p>Your application is submitted. Complete your driver profile now to start receiving jobs.</p>
-        <a href="https://x-tow-driver.netlify.app" target="_blank" rel="noopener"
-          style="display:block;margin:20px 0 10px;padding:15px;background:var(--red);color:white;border-radius:10px;font-size:16px;font-weight:800;text-align:center;letter-spacing:-0.2px;">
-          Create My Driver Account →
-        </a>
-        <p style="font-size:12px;color:var(--text3);margin-bottom:14px;">Takes 2 minutes. Phone + password to get started.</p>
-        <div style="border-top:1px solid var(--bd);padding-top:14px;">
-          <p style="font-size:12px;color:var(--text3);">Questions? Text <span style="color:var(--text2);font-weight:600;">647-473-1338</span></p>
-        </div>
+        <h3>Application received!</h3>
+        <p>We got you. Ready to set up your driver account and start receiving jobs?</p>
+        <button onclick="showAppPrompt()" class="btn-submit" style="margin-top:20px;">
+          Set Up My Driver Account →
+        </button>
+        <button onclick="showSuccessOnly()" style="display:block;width:100%;margin-top:10px;padding:12px;background:transparent;border:1px solid var(--bd);border-radius:10px;color:var(--text3);font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;">
+          Not right now
+        </button>
+      </div>
+
+      <!-- LATE SUCCESS (after declining prompt) -->
+      <div class="form-success" id="formSuccessSimple" style="display:none;">
+        <div class="si">✓</div>
+        <h3>You're on the list.</h3>
+        <p>We'll text you at the number you provided within 24 hours.</p>
+        <div class="ph">647-473-1338</div>
+        <p style="margin-top:6px;font-size:12px;color:var(--text3);">Text us anytime with questions.</p>
       </div>
 
     </div>
@@ -409,6 +416,27 @@
   <a onclick="openModal()">Privacy Policy</a> &nbsp;·&nbsp;
   rin-network@outlook.com</p>
 </footer>
+
+<!-- APP PROMPT MODAL -->
+<div class="modal-bg" id="appPromptModal" onclick="if(event.target===this)closeAppPrompt()">
+  <div class="modal" style="text-align:center;">
+    <div class="modal-handle"></div>
+    <div style="font-size:44px;margin-bottom:12px;">📱</div>
+    <h2 style="font-size:20px;margin-bottom:8px;">Download the Driver App</h2>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:6px;">
+      Your details are already filled in. Create your account in 2 minutes and start receiving jobs today.
+    </p>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:20px;">
+      Works on any phone — no app store required.
+    </p>
+    <button onclick="goToDriverApp()" class="btn-submit" style="font-size:16px;">
+      Open Driver App →
+    </button>
+    <button onclick="closeAppPrompt();showSuccessOnly();" class="modal-close" style="margin-top:10px;color:var(--text3);">
+      Not right now
+    </button>
+  </div>
+</div>
 
 <!-- TERMS MODAL -->
 <div class="modal-bg" id="tcModal" onclick="if(event.target===this)closeModal()">
@@ -505,6 +533,8 @@
         })
       });
       if (!res.ok && res.status !== 201) throw new Error();
+      _submittedPhone = phone;
+      _submittedName  = name;
       document.getElementById('formWrap').style.display = 'none';
       document.getElementById('formSuccess').classList.add('show');
     } catch(e) {
@@ -518,6 +548,36 @@
     const el = document.getElementById('formErr');
     el.textContent = msg;
     el.classList.add('show');
+  }
+
+  // App prompt — shown after successful form submit
+  let _submittedPhone = '';
+  let _submittedName  = '';
+
+  function showAppPrompt() {
+    const modal = document.getElementById('appPromptModal');
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeAppPrompt() {
+    document.getElementById('appPromptModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function goToDriverApp() {
+    const phone = _submittedPhone.replace(/\D/g, '');
+    const name  = encodeURIComponent(_submittedName);
+    closeAppPrompt();
+    window.open(
+      `https://x-tow-driver.netlify.app?phone=${phone}&name=${name}&mode=register`,
+      '_blank', 'noopener'
+    );
+  }
+
+  function showSuccessOnly() {
+    document.getElementById('formSuccess').style.display = 'none';
+    document.getElementById('formSuccessSimple').style.display = 'block';
   }
 
   function openModal() {
