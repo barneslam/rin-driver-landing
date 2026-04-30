@@ -731,7 +731,7 @@
     try {
       const res = await fetch(`${SB_URL}/rest/v1/marketing_leads`, {
         method: 'POST',
-        headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'return=minimal' },
+        headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'resolution=ignore-duplicates,return=minimal' },
         body: JSON.stringify({
           contact_name:  name,
           phone:         '+1' + phone.replace(/\D/g,''),
@@ -741,7 +741,7 @@
           message:       `type:${type} | CASL:YES | GPS:${_gps ? `${_gps.lat.toFixed(4)},${_gps.lng.toFixed(4)}` : 'none'} | gift:${_giftClicked}`,
         })
       });
-      if (!res.ok && res.status !== 201) throw new Error();
+      if (!res.ok && res.status !== 201 && res.status !== 409) throw new Error();
       _submittedPhone = phone;
       _submittedName  = name;
       _submittedType  = type;
