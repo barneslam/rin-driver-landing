@@ -564,33 +564,7 @@
   rin-network@outlook.com</p>
 </footer>
 
-<!-- OTP VERIFICATION MODAL — fires after form submit, before device picker -->
-<div class="modal-bg" id="otpModal">
-  <div class="modal" style="text-align:center;">
-    <div class="modal-handle"></div>
-    <div style="font-size:40px;margin-bottom:10px;">💬</div>
-    <h2 style="font-size:20px;margin-bottom:6px;">Verify Your Number</h2>
-    <p style="font-size:14px;color:var(--text2);margin-bottom:4px;">We texted a 6-digit code to</p>
-    <p id="otpPhoneDisplay" style="font-size:17px;font-weight:700;color:var(--text);margin-bottom:22px;"></p>
-
-    <input type="text" inputmode="numeric" maxlength="6" id="otpInput"
-      placeholder="000000" autocomplete="one-time-code"
-      style="width:100%;padding:16px;font-size:32px;font-weight:700;letter-spacing:10px;text-align:center;background:var(--bg3);border:1.5px solid var(--bd);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;margin-bottom:12px;outline:none;-webkit-appearance:none;"
-      oninput="this.value=this.value.replace(/\D/g,'').slice(0,6);if(this.value.length===6)verifyOtp()">
-
-    <div id="otpErr" style="display:none;background:rgba(233,69,96,0.08);border:1px solid rgba(233,69,96,0.25);border-radius:8px;padding:10px 13px;font-size:13px;color:#f87171;margin-bottom:12px;text-align:left;"></div>
-
-    <button onclick="verifyOtp()" id="otpVerifyBtn" class="btn-submit" style="margin-bottom:12px;">
-      Verify &amp; Continue →
-    </button>
-    <button onclick="resendOtp()" id="otpResendBtn"
-      style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;text-decoration:underline;padding:8px;display:block;width:100%;">
-      Resend code
-    </button>
-  </div>
-</div>
-
-<!-- DEVICE PICKER MODAL — fires after OTP is verified -->
+<!-- DEVICE PICKER MODAL — fires immediately after form submit -->
 <div class="modal-bg" id="downloadModal">
   <div class="modal" style="text-align:center;">
     <div class="modal-handle"></div>
@@ -774,7 +748,7 @@
       _wantsQuoteTool = document.getElementById('chk_quote').checked;
       track('form_submit', { driver_type: type, gift_source: _giftClicked, has_gps: !!_gps, quote_optin: _wantsQuoteTool });
       document.getElementById('formWrap').style.display = 'none';
-      sendOtpAndShowModal();
+      showDownloadModal();
     } catch(e) {
       showErr('Something went wrong. Please text 647-473-1338 directly.');
       btn.disabled = false; btn.textContent = 'Apply to Drive →';
@@ -784,84 +758,6 @@
   function showErr(msg) {
     const el = document.getElementById('formErr');
     el.textContent = msg; el.classList.add('show');
-  }
-
-  // ── OTP: send → verify → unlock ──────────────────────────────
-  async function sendOtpAndShowModal() {
-    const fullPhone = '+1' + _submittedPhone.replace(/\D/g,'');
-    try {
-      const res = await fetch(`${SB_URL}/functions/v1/send-driver-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json', 'apikey':SB_KEY, 'Authorization':`Bearer ${SB_KEY}` },
-        body: JSON.stringify({ phone: fullPhone }),
-      });
-      const d = await res.json();
-      if (!d.success) console.warn('[OTP] send failed:', d.error);
-    } catch(e) { console.warn('[OTP] send error:', e); }
-
-    document.getElementById('otpPhoneDisplay').textContent = _submittedPhone;
-    document.getElementById('otpInput').value = '';
-    document.getElementById('otpErr').style.display = 'none';
-    document.getElementById('otpVerifyBtn').disabled = false;
-    document.getElementById('otpVerifyBtn').textContent = 'Verify & Continue →';
-    document.getElementById('otpModal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => document.getElementById('otpInput').focus(), 350);
-    track('otp_sent', {});
-  }
-
-  async function verifyOtp() {
-    const code = document.getElementById('otpInput').value.trim();
-    if (code.length !== 6) { showOtpErr('Enter the full 6-digit code from your SMS.'); return; }
-    const btn = document.getElementById('otpVerifyBtn');
-    btn.disabled = true; btn.textContent = 'Verifying…';
-    document.getElementById('otpErr').style.display = 'none';
-
-    const fullPhone = '+1' + _submittedPhone.replace(/\D/g,'');
-    try {
-      const res = await fetch(`${SB_URL}/rest/v1/rpc/verify_driver_code`, {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json', 'apikey':SB_KEY, 'Authorization':`Bearer ${SB_KEY}` },
-        body: JSON.stringify({ p_phone: fullPhone, p_code: code }),
-      });
-      const data = await res.json();
-      if (data && data.success) {
-        track('otp_verified', {});
-        document.getElementById('otpModal').classList.remove('open');
-        document.body.style.overflow = '';
-        showDownloadModal();
-      } else {
-        showOtpErr(data?.error || 'Incorrect code — check your SMS and try again.');
-        btn.disabled = false; btn.textContent = 'Verify & Continue →';
-      }
-    } catch(e) {
-      showOtpErr('Something went wrong. Please try again.');
-      btn.disabled = false; btn.textContent = 'Verify & Continue →';
-    }
-  }
-
-  function showOtpErr(msg) {
-    const el = document.getElementById('otpErr');
-    el.textContent = msg; el.style.display = 'block';
-  }
-
-  async function resendOtp() {
-    const resendBtn = document.getElementById('otpResendBtn');
-    resendBtn.textContent = 'Sending…'; resendBtn.style.pointerEvents = 'none';
-    document.getElementById('otpInput').value = '';
-    document.getElementById('otpErr').style.display = 'none';
-    const fullPhone = '+1' + _submittedPhone.replace(/\D/g,'');
-    try {
-      await fetch(`${SB_URL}/functions/v1/send-driver-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json', 'apikey':SB_KEY, 'Authorization':`Bearer ${SB_KEY}` },
-        body: JSON.stringify({ phone: fullPhone }),
-      });
-    } catch(e) {}
-    resendBtn.textContent = 'Code resent ✓';
-    setTimeout(() => { resendBtn.textContent = 'Resend code'; resendBtn.style.pointerEvents = ''; }, 4000);
-    track('otp_resent', {});
-    setTimeout(() => document.getElementById('otpInput').focus(), 200);
   }
 
   // ── Device detection ─────────────────────────────────────────
@@ -887,8 +783,34 @@
     track('download_modal_shown', { detected_device: device });
   }
 
-  function downloadApp(platform) {
+  async function downloadApp(platform) {
     track('app_download_selected', { platform });
+
+    // Pre-save into drivers table so OTP + registration work on arrival
+    const fullPhone = '+1' + _submittedPhone.replace(/\D/g,'');
+    try {
+      await fetch(`${SB_URL}/rest/v1/drivers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type':  'application/json',
+          'apikey':         SB_KEY,
+          'Authorization': `Bearer ${SB_KEY}`,
+          'Prefer':         'resolution=ignore-duplicates,return=minimal',
+        },
+        body: JSON.stringify({
+          full_name:           _submittedName,
+          phone:               fullPhone,
+          company_name:        _submittedType === 'owner_operator' ? 'Owner-Operator' : (_submittedType === 'company' ? 'Company Driver' : null),
+          is_verified:         false,
+          availability_status: 'offline',
+          source:              `landing:${platform}`,
+        }),
+      });
+      track('driver_pre_registered', { platform });
+    } catch(e) {
+      console.warn('[pre-register] drivers insert failed:', e);
+    }
+
     const phone = _submittedPhone.replace(/\D/g,'');
     const name  = encodeURIComponent(_submittedName);
     window.open(`https://x-tow-driver.netlify.app?phone=${phone}&name=${name}&mode=register`, '_blank', 'noopener');
