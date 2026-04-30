@@ -306,7 +306,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:12px;">
     <button class="header-gift" onclick="giftClick()">
-      🎁 <span class="hg-label">Free Quote Tool</span> — Register to Unlock
+      🎁 <span class="hg-label">Free Quotation Tools</span> — Register to Unlock
     </button>
     <div class="header-phone">Questions? <strong>647-473-1338</strong></div>
   </div>
@@ -377,16 +377,21 @@
       </div>
     </div>
 
-    <!-- FREE GIFT CALLOUT -->
+    <!-- FREE QUOTATION TOOLS CALLOUT -->
     <div class="gift" id="giftSection">
-      <div class="gift-badge">🎁 Free Gift for Registered Drivers</div>
-      <h3>Free Job Quote Tool — Keep It Forever</h3>
-      <p>Know exactly what a job pays before you move. Register free — no commitment, no subscription, no credit card.</p>
+      <div class="gift-badge">🎁 Free for Registered Drivers</div>
+      <h3>Free Quotation Tools — Know Every Job's Value</h3>
+      <p>Two tools, completely free. See what a job pays <em>before</em> you move. No subscription. No credit card. Keep them forever.</p>
+      <ul style="list-style:none;padding:0;margin:0 0 14px;display:flex;flex-direction:column;gap:7px;">
+        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">✓</span> <strong style="color:var(--text);">Quote Calculator</strong> — instant price check before accepting any job</li>
+        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">✓</span> <strong style="color:var(--text);">Earnings Estimator</strong> — forecast your payout by job type and route</li>
+        <li style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">✓</span> Works on any phone — no app store required</li>
+      </ul>
       <button onclick="giftClick()" class="gift-link" style="border:none;cursor:pointer;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Get My Free Quote Tool
+        Get My Free Quotation Tools
       </button>
-      <p class="gift-fine">Register in 30 seconds → unlock the tool → keep it free forever.</p>
+      <p class="gift-fine">Register in 30 seconds → confirm your info → unlock both tools free forever.</p>
     </div>
 
   </div>
@@ -433,6 +438,17 @@
           <span>I agree to the <a onclick="openModal()">Terms &amp; Conditions and Privacy Policy</a> and consent to RIN contacting me about driver opportunities. (CASL)</span>
         </label>
 
+        <!-- Free Quotation Tools opt-in -->
+        <div style="margin:0 0 18px;padding:13px 15px;background:rgba(251,191,36,0.05);border:1px solid rgba(251,191,36,0.22);border-radius:11px;">
+          <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;">
+            <input type="checkbox" id="chk_quote" style="margin-top:2px;width:15px;height:15px;accent-color:var(--gold);flex-shrink:0;">
+            <span style="font-size:12px;color:var(--text2);line-height:1.55;">
+              🎁 <strong style="color:var(--gold);">Yes — send me the Free RIN Quotation Tools</strong> so I can check job payouts before I move.
+              <span style="display:block;margin-top:3px;font-size:11px;color:var(--text3);">Your name and number will be used to set up your free access.</span>
+            </span>
+          </label>
+        </div>
+
         <button class="btn-submit" id="submitBtn" onclick="doSubmit()">
           Apply to Drive →
         </button>
@@ -458,14 +474,55 @@
       <!-- SUCCESS STATE: Step 2 — Quote Tool (shown after app prompt) -->
       <div class="form-success" id="formSuccessQuote" style="display:none;">
         <div class="si">🎁</div>
-        <h3>Your free tool is unlocked!</h3>
-        <p>Step 2 of 2 — Open your free tow quote calculator. Know every job's payout before you move.</p>
+        <h3>Your free tools are unlocked!</h3>
+        <p>Open your free RIN Quotation Tools. Know every job's payout before you move.</p>
         <a href="https://rintowquote.online" target="_blank" rel="noopener"
           onclick="track('quote_tool_opened',{})"
           class="btn-submit" style="display:block;text-align:center;text-decoration:none;margin-top:16px;padding:15px;">
           Open Free Quote Tool →
         </a>
         <p style="font-size:12px;color:var(--text3);margin-top:10px;">No login needed. Works on any phone.</p>
+      </div>
+
+      <!-- QUOTE TOOL: Info confirmation step (shown when driver opted in) -->
+      <div id="formSuccessConfirm" style="display:none;">
+        <div style="text-align:center;margin-bottom:20px;">
+          <div style="font-size:48px;margin-bottom:12px;">✅</div>
+          <h3 style="font-size:20px;font-weight:800;margin-bottom:6px;">Application received!</h3>
+          <p style="font-size:13px;color:var(--text3);">Confirm the details below to unlock your free Quotation Tools.</p>
+        </div>
+
+        <!-- Submitted info review card -->
+        <div style="background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.28);border-radius:14px;padding:18px 20px;margin-bottom:16px;">
+          <div style="font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">Information You Submitted</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+              <span style="color:var(--text3);">Name</span>
+              <span id="confirm_name" style="color:var(--text);font-weight:700;"></span>
+            </div>
+            <div style="height:1px;background:rgba(255,255,255,0.04);"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+              <span style="color:var(--text3);">Phone</span>
+              <span id="confirm_phone" style="color:var(--text);font-weight:700;"></span>
+            </div>
+            <div style="height:1px;background:rgba(255,255,255,0.04);"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+              <span style="color:var(--text3);">Driver Type</span>
+              <span id="confirm_type" style="color:var(--text);font-weight:700;"></span>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:12px;color:var(--text3);line-height:1.65;margin-bottom:18px;">
+          By confirming, you acknowledge that the above information is correct and consent to RIN using it to provide your free Quotation Tools access. Governed by PIPEDA and our <a onclick="openModal()" style="color:var(--red);text-decoration:underline;cursor:pointer;">Privacy Policy</a>.
+        </p>
+
+        <button onclick="confirmQuoteOptin()" class="btn-submit" style="background:var(--gold);color:#1a1200;font-size:15px;letter-spacing:-0.2px;">
+          ✓ Confirm &amp; Unlock My Free Quotation Tools
+        </button>
+        <button onclick="declineQuoteOptin()" style="display:block;width:100%;margin-top:10px;padding:13px;background:transparent;border:1px solid var(--bd);border-radius:10px;color:var(--text3);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;">
+          Just submit my application — no thanks
+        </button>
       </div>
 
       <!-- FINAL: declined both -->
@@ -657,9 +714,19 @@
       if (!res.ok && res.status !== 201) throw new Error();
       _submittedPhone = phone;
       _submittedName  = name;
-      track('form_submit', { driver_type: type, gift_source: _giftClicked, has_gps: !!_gps });
+      const wantsQuoteTool = document.getElementById('chk_quote').checked;
+      track('form_submit', { driver_type: type, gift_source: _giftClicked, has_gps: !!_gps, quote_optin: wantsQuoteTool });
       document.getElementById('formWrap').style.display = 'none';
-      document.getElementById('formSuccess').classList.add('show');
+      if (wantsQuoteTool) {
+        const typeLabels = { independent: 'Independent / Freelance', company: 'Company Driver', owner_operator: 'Owner-Operator' };
+        document.getElementById('confirm_name').textContent  = name;
+        document.getElementById('confirm_phone').textContent = phone;
+        document.getElementById('confirm_type').textContent  = typeLabels[type] || type;
+        document.getElementById('formSuccessConfirm').style.display = 'block';
+        track('quote_optin_confirm_shown', { driver_type: type });
+      } else {
+        document.getElementById('formSuccess').classList.add('show');
+      }
     } catch(e) {
       showErr('Something went wrong. Please text 647-473-1338 directly.');
       btn.disabled = false; btn.textContent = 'Apply to Drive →';
@@ -696,6 +763,19 @@
     document.getElementById('formSuccess').style.display = 'none';
     document.getElementById('formSuccessQuote').style.display = 'block';
   }
+
+  // ── Quote Tool opt-in confirmation handlers ───────────────────
+  function confirmQuoteOptin() {
+    track('quote_optin_confirmed', {});
+    document.getElementById('formSuccessConfirm').style.display = 'none';
+    document.getElementById('formSuccessQuote').style.display = 'block';
+  }
+  function declineQuoteOptin() {
+    track('quote_optin_declined_at_confirm', {});
+    document.getElementById('formSuccessConfirm').style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+  }
+
   function showSuccessOnly() {
     track('quote_tool_declined', {});
     document.getElementById('formSuccessQuote').style.display = 'none';
