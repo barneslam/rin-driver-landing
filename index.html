@@ -488,20 +488,7 @@
         </p>
       </div>
 
-      <!-- SUCCESS STATE: Step 1 — Driver App -->
-      <div class="form-success" id="formSuccess">
-        <div class="si">🚛</div>
-        <h3>Application received!</h3>
-        <p>Step 1 of 2 — Set up your driver account to start receiving jobs.</p>
-        <button onclick="showAppPrompt()" class="btn-submit" style="margin-top:16px;">
-          Set Up My Driver Account →
-        </button>
-        <button onclick="skipToQuoteTool()" style="display:block;width:100%;margin-top:10px;padding:12px;background:transparent;border:1px solid var(--bd);border-radius:10px;color:var(--text3);font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;">
-          Skip — go to free quote tool
-        </button>
-      </div>
-
-      <!-- SUCCESS STATE: Step 2 — Quote Tool (shown after app prompt) -->
+      <!-- SUCCESS STATE: Step 2 — Quote Tool (shown after device modal + quote confirm) -->
       <div class="form-success" id="formSuccessQuote" style="display:none;">
         <div class="si">🎁</div>
         <h3>Your free tools are unlocked!</h3>
@@ -577,23 +564,34 @@
   rin-network@outlook.com</p>
 </footer>
 
-<!-- APP PROMPT MODAL -->
-<div class="modal-bg" id="appPromptModal" onclick="if(event.target===this)closeAppPrompt()">
+<!-- DEVICE PICKER MODAL — fires immediately after form submit -->
+<div class="modal-bg" id="downloadModal">
   <div class="modal" style="text-align:center;">
     <div class="modal-handle"></div>
-    <div style="font-size:44px;margin-bottom:12px;">📱</div>
-    <h2 style="font-size:20px;margin-bottom:8px;">Download the Driver App</h2>
-    <p style="font-size:14px;color:var(--text2);margin-bottom:6px;">
-      Your details are already filled in. Create your account in 2 minutes and start receiving jobs today.
+    <div style="font-size:42px;margin-bottom:10px;">📲</div>
+    <h2 style="font-size:20px;margin-bottom:6px;">Get the Driver App</h2>
+    <p style="font-size:14px;color:var(--green);font-weight:600;margin-bottom:4px;">✓ Application saved!</p>
+    <p style="font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.5;">
+      What device are you on?<br>We'll open the app with your details pre-filled.
     </p>
-    <p style="font-size:12px;color:var(--text3);margin-bottom:20px;">
-      Works on any phone — no app store required.
-    </p>
-    <button onclick="goToDriverApp()" class="btn-submit" style="font-size:16px;">
-      Open Driver App →
+
+    <!-- iOS -->
+    <button onclick="downloadApp('ios')" id="dlIosBtn" class="btn-submit"
+      style="margin-bottom:11px;display:flex;align-items:center;justify-content:center;gap:11px;background:#1c1c1e;border:2px solid #636366;font-size:16px;padding:16px;">
+      <svg width="22" height="22" viewBox="0 0 814 1000" fill="white"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-38.8-155.5-127.4C46 790.9 0 663 0 541.8 0 243.4 185.3 100.4 370.4 100.4c93.7 0 171.9 61.7 231.3 61.7 57 0 145.9-66.5 216.7-66.5zm-181.7-108.5c31.4-38.2 54.4-91.2 54.4-144.5 0-7.4-.7-14.9-2-21.6-51.8 1.9-113.4 34.2-150.2 77.2-28.1 32.5-54.4 85.4-54.4 139.5 0 8 1.3 16 2 18.6 3.4.6 8.7 1.3 14.1 1.3 46.4 0 103.7-31.3 136.1-70.5z"/></svg>
+      iPhone / Apple iOS
     </button>
-    <button onclick="closeAppPrompt();showSuccessOnly();" class="modal-close" style="margin-top:10px;color:var(--text3);">
-      Not right now
+
+    <!-- Android -->
+    <button onclick="downloadApp('android')" id="dlAndroidBtn" class="btn-submit"
+      style="margin-bottom:22px;display:flex;align-items:center;justify-content:center;gap:11px;background:#0a2e1e;border:2px solid var(--green);font-size:16px;padding:16px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#34d399"><path d="M17.523 15.341l1.2-2.079a.228.228 0 0 0-.083-.311l-1.217-.703a6 6 0 0 0 .59-2.555 6 6 0 0 0-.61-2.599l1.217-.703a.228.228 0 0 0 .083-.311L17.5 3.999a.228.228 0 0 0-.311-.082l-1.22.704A6 6 0 0 0 12.5 3.07V1.842a.228.228 0 0 0-.228-.228h-2.182a.228.228 0 0 0-.228.228V3.07A6 6 0 0 0 6.53 4.623l-1.22-.704a.228.228 0 0 0-.311.082L3.8 6.08a.228.228 0 0 0 .082.311l1.22.703A6 6 0 0 0 4.49 9.693a6 6 0 0 0 .61 2.6l-1.217.703a.228.228 0 0 0-.083.311l1.2 2.079a.228.228 0 0 0 .311.082l1.22-.704A6 6 0 0 0 9.863 16.5v1.228c0 .126.102.228.228.228h2.182a.228.228 0 0 0 .228-.228V16.5a6 6 0 0 0 3.311-1.553l1.22.704a.228.228 0 0 0 .311-.082l.18-.228zM12 14.636a2.954 2.954 0 1 1 0-5.908 2.954 2.954 0 0 1 0 5.908z"/></svg>
+      Android / Google
+    </button>
+
+    <button onclick="skipDownload()"
+      style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;padding:10px;text-decoration:underline;display:block;width:100%;">
+      Not right now — just take my application
     </button>
   </div>
 </div>
@@ -641,8 +639,10 @@
   }
 
   // ── Agentic event tracker → Supabase marketing_events ────────
-  let _submittedPhone = '';
-  let _submittedName  = '';
+  let _submittedPhone    = '';
+  let _submittedName     = '';
+  let _submittedType     = '';
+  let _wantsQuoteTool    = false;
   const _sid = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).slice(2);
 
   function track(event_name, meta) {
@@ -744,19 +744,11 @@
       if (!res.ok && res.status !== 201) throw new Error();
       _submittedPhone = phone;
       _submittedName  = name;
-      const wantsQuoteTool = document.getElementById('chk_quote').checked;
-      track('form_submit', { driver_type: type, gift_source: _giftClicked, has_gps: !!_gps, quote_optin: wantsQuoteTool });
+      _submittedType  = type;
+      _wantsQuoteTool = document.getElementById('chk_quote').checked;
+      track('form_submit', { driver_type: type, gift_source: _giftClicked, has_gps: !!_gps, quote_optin: _wantsQuoteTool });
       document.getElementById('formWrap').style.display = 'none';
-      if (wantsQuoteTool) {
-        const typeLabels = { independent: 'Independent / Freelance', company: 'Company Driver', owner_operator: 'Owner-Operator' };
-        document.getElementById('confirm_name').textContent  = name;
-        document.getElementById('confirm_phone').textContent = phone;
-        document.getElementById('confirm_type').textContent  = typeLabels[type] || type;
-        document.getElementById('formSuccessConfirm').style.display = 'block';
-        track('quote_optin_confirm_shown', { driver_type: type });
-      } else {
-        document.getElementById('formSuccess').classList.add('show');
-      }
+      showDownloadModal();
     } catch(e) {
       showErr('Something went wrong. Please text 647-473-1338 directly.');
       btn.disabled = false; btn.textContent = 'Apply to Drive →';
@@ -768,30 +760,59 @@
     el.textContent = msg; el.classList.add('show');
   }
 
-  // ── App prompt (Step 1 post-submit) ──────────────────────────
-  function showAppPrompt() {
-    track('app_prompt_shown', {});
-    document.getElementById('appPromptModal').classList.add('open');
+  // ── Device detection ─────────────────────────────────────────
+  function detectDevice() {
+    const ua = navigator.userAgent;
+    if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'ios';
+    if (/Android/.test(ua)) return 'android';
+    return 'unknown';
+  }
+
+  // ── Download modal (fires immediately after form submit) ──────
+  function showDownloadModal() {
+    const device = detectDevice();
+    if (device === 'ios') {
+      document.getElementById('dlIosBtn').style.borderColor = 'var(--red)';
+      document.getElementById('dlIosBtn').style.background  = '#2c1010';
+    } else if (device === 'android') {
+      document.getElementById('dlAndroidBtn').style.borderColor = '#6ee7b7';
+      document.getElementById('dlAndroidBtn').style.background  = '#063320';
+    }
+    document.getElementById('downloadModal').classList.add('open');
     document.body.style.overflow = 'hidden';
+    track('download_modal_shown', { detected_device: device });
   }
-  function closeAppPrompt() {
-    document.getElementById('appPromptModal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  function goToDriverApp() {
-    track('app_prompt_accepted', {});
+
+  function downloadApp(platform) {
+    track('app_download_selected', { platform });
     const phone = _submittedPhone.replace(/\D/g,'');
     const name  = encodeURIComponent(_submittedName);
-    closeAppPrompt();
-    window.open(`https://x-tow-driver.netlify.app?phone=${phone}&name=${name}&mode=register`,'_blank','noopener');
-    // Advance to Step 2: quote tool
-    document.getElementById('formSuccess').style.display = 'none';
-    document.getElementById('formSuccessQuote').style.display = 'block';
+    window.open(`https://x-tow-driver.netlify.app?phone=${phone}&name=${name}&mode=register`, '_blank', 'noopener');
+    closeDownloadModal();
   }
-  function skipToQuoteTool() {
-    track('app_prompt_skipped', {});
-    document.getElementById('formSuccess').style.display = 'none';
-    document.getElementById('formSuccessQuote').style.display = 'block';
+
+  function skipDownload() {
+    track('download_skipped', {});
+    closeDownloadModal();
+  }
+
+  function closeDownloadModal() {
+    document.getElementById('downloadModal').classList.remove('open');
+    document.body.style.overflow = '';
+    showPostSubmitState();
+  }
+
+  function showPostSubmitState() {
+    if (_wantsQuoteTool) {
+      const typeLabels = { independent: 'Independent / Freelance', company: 'Company Driver', owner_operator: 'Owner-Operator' };
+      document.getElementById('confirm_name').textContent  = _submittedName;
+      document.getElementById('confirm_phone').textContent = _submittedPhone;
+      document.getElementById('confirm_type').textContent  = typeLabels[_submittedType] || _submittedType;
+      document.getElementById('formSuccessConfirm').style.display = 'block';
+      track('quote_optin_confirm_shown', { driver_type: _submittedType });
+    } else {
+      document.getElementById('formSuccessSimple').style.display = 'block';
+    }
   }
 
   // ── Quote Tool opt-in confirmation handlers ───────────────────
@@ -803,12 +824,6 @@
   function declineQuoteOptin() {
     track('quote_optin_declined_at_confirm', {});
     document.getElementById('formSuccessConfirm').style.display = 'none';
-    document.getElementById('formSuccess').classList.add('show');
-  }
-
-  function showSuccessOnly() {
-    track('quote_tool_declined', {});
-    document.getElementById('formSuccessQuote').style.display = 'none';
     document.getElementById('formSuccessSimple').style.display = 'block';
   }
 
