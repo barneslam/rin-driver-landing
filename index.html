@@ -11,17 +11,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:    #05091a;
-      --bg2:   #0c1428;
-      --bg3:   #162040;
-      --bd:    #1e2d50;
-      --bd2:   #2e4070;
-      --text:  #f0f4ff;
-      --text2: #9aabc8;
-      --text3: #5a7090;
+      --bg:    #0a0e27;
+      --bg2:   #0f1535;
+      --bg3:   #151d45;
+      --bd:    #1f2d52;
+      --bd2:   #2d4170;
+      --text:  #f5f7fb;
+      --text2: #9ca3b3;
+      --text3: #6b7590;
+      --primary: #e94560;
+      --accent-green: #22c55e;
       --red:   #e94560;
-      --green: #34d399;
-      --gold:  #fbbf24;
+      --green: #22c55e;
+      --gold:  #f59e0b;
       --blue:  #3b82f6;
       --blue-l:#60a5fa;
     }
@@ -111,22 +113,23 @@
       margin-bottom:36px;
     }
     .feat{
-      background:rgba(255,255,255,0.03);
+      background:rgba(255,255,255,0.02);
       border:1px solid var(--bd);
       border-radius:14px;
-      padding:16px 18px;
+      padding:20px 20px;
       transition:border-color 200ms;
     }
     .feat:hover{border-color:var(--bd2);}
+    .feat:focus-within{border-color:var(--primary);}
     .feat-icon{
       width:36px;height:36px;border-radius:8px;
       display:flex;align-items:center;justify-content:center;
       margin-bottom:10px;font-size:17px;
     }
-    .feat-icon.green{background:rgba(52,211,153,0.1);}
-    .feat-icon.red  {background:rgba(233,69,96,0.1);}
-    .feat-icon.gold {background:rgba(251,191,36,0.1);}
-    .feat-icon.blue {background:rgba(96,165,250,0.1);}
+    .feat-icon.green{background:rgba(16,185,129,0.1);}
+    .feat-icon.red  {background:rgba(239,68,68,0.1);}
+    .feat-icon.gold {background:rgba(245,158,11,0.1);}
+    .feat-icon.blue {background:rgba(37,99,235,0.1);}
     .feat-title{font-size:12px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--text);margin-bottom:4px;}
     .feat-desc{font-size:12px;color:var(--text3);line-height:1.5;}
 
@@ -147,12 +150,12 @@
       animation:fadeUp 0.7s 0.15s ease both;
     }
     .form-card{
-      background:rgba(12,20,40,0.95);
+      background:rgba(15,21,53,0.95);
       border:1px solid var(--bd2);
-      border-radius:20px;
-      padding:36px 32px;
+      border-radius:16px;
+      padding:32px 32px;
       backdrop-filter:blur(20px);
-      box-shadow:0 24px 80px rgba(0,0,0,0.5);
+      box-shadow:0 24px 80px rgba(0,0,0,0.4);
     }
     .form-card h2{font-size:22px;font-weight:800;letter-spacing:-0.4px;margin-bottom:4px;}
     .form-sub{font-size:13px;color:var(--text3);margin-bottom:24px;}
@@ -160,13 +163,14 @@
     /* contact picker */
     .contact-btn{
       width:100%;padding:12px;
-      background:rgba(96,165,250,0.07);border:1.5px dashed rgba(96,165,250,0.3);
-      border-radius:11px;color:var(--blue-l);font-size:13px;font-weight:600;
+      background:rgba(233,69,96,0.07);border:1.5px dashed rgba(233,69,96,0.3);
+      border-radius:11px;color:var(--red);font-size:13px;font-weight:600;
       cursor:pointer;margin-bottom:12px;
       display:flex;align-items:center;justify-content:center;gap:8px;
       transition:all 150ms;font-family:'Inter',sans-serif;
+      min-height:44px;
     }
-    .contact-btn:hover{background:rgba(96,165,250,0.13);border-color:rgba(96,165,250,0.5);}
+    .contact-btn:hover{background:rgba(233,69,96,0.13);border-color:rgba(233,69,96,0.5);}
     .contact-btn:active{transform:scale(0.98);}
     .contact-btn.hidden{display:none;}
     .or-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:11px;color:var(--bd2);}
@@ -175,18 +179,20 @@
 
     /* fields */
     .field{margin-bottom:12px;}
-    .field label{display:block;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:5px;}
+    .field label{display:block;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
     .field input,.field select{
-      width:100%;padding:13px 15px;
+      width:100%;padding:14px 16px;
       background:var(--bg3);border:1.5px solid var(--bd);
       border-radius:10px;font-size:15px;
       color:var(--text);font-family:'Inter',sans-serif;
       outline:none;transition:border-color 150ms;
       -webkit-appearance:none;
+      min-height:44px;
     }
     .field input:focus,.field select:focus{border-color:var(--red);}
     .field input::placeholder{color:var(--text3);}
     .field select option{background:var(--bg3);}
+    .field input:focus,.field select:focus{box-shadow:0 0 0 3px rgba(233,69,96,0.1);}
 
     /* legal */
     .legal{
@@ -199,20 +205,22 @@
 
     /* submit */
     .btn-submit{
-      width:100%;padding:15px;
+      width:100%;padding:14px;
       background:var(--red);color:white;
       border:none;border-radius:10px;
       font-size:16px;font-weight:800;
       cursor:pointer;transition:all 150ms;
       font-family:'Inter',sans-serif;letter-spacing:-0.2px;
+      min-height:44px;display:flex;align-items:center;justify-content:center;
     }
     .btn-submit:hover{opacity:0.88;}
     .btn-submit:active{transform:scale(0.98);}
     .btn-submit:disabled{opacity:0.4;cursor:not-allowed;}
+    .btn-submit:focus{outline:2px solid var(--red);outline-offset:2px;}
     .form-note{text-align:center;font-size:11px;color:var(--text3);margin-top:10px;}
 
     /* error / success */
-    .form-err{display:none;background:rgba(233,69,96,0.08);border:1px solid rgba(233,69,96,0.25);border-radius:8px;padding:10px 13px;font-size:13px;color:#f87171;margin-bottom:12px;}
+    .form-err{display:none;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:8px;padding:10px 13px;font-size:13px;color:#fca5a5;margin-bottom:12px;}
     .form-err.show{display:block;}
     .form-success{display:none;text-align:center;padding:12px 0;}
     .form-success.show{display:block;}
@@ -256,20 +264,20 @@
     /* ── FREE GIFT CALLOUT ── */
     .gift{
       margin-top:24px;
-      background:linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(251,191,36,0.03) 100%);
-      border:1px solid rgba(251,191,36,0.25);
+      background:linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(245,158,11,0.03) 100%);
+      border:1px solid rgba(245,158,11,0.25);
       border-radius:16px;
-      padding:20px 22px;
+      padding:24px 24px;
       position:relative;overflow:hidden;
     }
     .gift::before{
       content:'';position:absolute;top:-30px;right:-30px;
       width:100px;height:100px;border-radius:50%;
-      background:rgba(251,191,36,0.06);
+      background:rgba(245,158,11,0.06);
     }
     .gift-badge{
       display:inline-flex;align-items:center;gap:6px;
-      background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);
+      background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);
       border-radius:100px;padding:3px 12px;
       font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;
       color:var(--gold);margin-bottom:10px;
@@ -551,6 +559,32 @@
         <p style="margin-top:6px;font-size:12px;color:var(--text3);">Text us anytime with questions.</p>
       </div>
 
+      <!-- OTP VERIFICATION (shown when driver skips download) -->
+      <div id="otpWrap" style="display:none;text-align:center;padding:24px 8px 16px;">
+        <div style="font-size:40px;margin-bottom:10px;">📱</div>
+        <h3 style="color:var(--text);margin-bottom:6px;font-size:18px;">Verify your number</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:6px;line-height:1.5;">
+          We sent a 6-digit code to<br><strong id="otpPhoneDisplay" style="color:var(--text);"></strong>
+        </p>
+        <p style="font-size:12px;color:var(--text3);margin-bottom:20px;">Check your texts — code expires in 10 min.</p>
+        <input id="otpInput" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="6"
+          placeholder="000000"
+          style="width:150px;text-align:center;font-size:28px;letter-spacing:8px;padding:14px 10px;background:var(--bg3);border:2px solid var(--bd2);border-radius:12px;color:var(--text);font-family:'Inter',sans-serif;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto;"
+          oninput="this.value=this.value.replace(/\D/g,'').slice(0,6)"
+          onkeydown="if(event.key==='Enter')verifyOTP()">
+        <div id="otpErr" style="color:var(--red);font-size:13px;margin-bottom:12px;min-height:18px;"></div>
+        <button onclick="verifyOTP()" id="otpVerifyBtn" class="btn-submit" style="margin-bottom:16px;max-width:240px;margin-left:auto;margin-right:auto;">
+          Confirm →
+        </button>
+        <div style="font-size:12px;color:var(--text3);">
+          <span id="otpResendTimer">Resend in <span id="otpCountdown">30</span>s</span>
+          <a id="otpResendLink" onclick="resendOTP()" style="color:var(--gold);cursor:pointer;display:none;">Resend code</a>
+        </div>
+        <p style="margin-top:16px;font-size:11px;color:var(--text3);">
+          Wrong number? <a onclick="location.reload()" style="color:var(--blue-l);cursor:pointer;">Start over</a>
+        </p>
+      </div>
+
     </div>
   </div>
 
@@ -589,7 +623,7 @@
       Android / Google
     </button>
 
-    <button onclick="skipDownload()"
+    <button id="dlSkipBtn" onclick="skipDownload()"
       style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;padding:10px;text-decoration:underline;display:block;width:100%;">
       Not right now — just take my application
     </button>
@@ -643,6 +677,7 @@
   let _submittedName     = '';
   let _submittedType     = '';
   let _wantsQuoteTool    = false;
+  let _downloadClicked   = false;
   const _sid = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).slice(2);
 
   function track(event_name, meta) {
@@ -727,11 +762,30 @@
     if (!type)                              { showErr('Please select your driver type.'); return; }
     if (!agree)                             { showErr('Please agree to the Terms & Conditions to continue.'); return; }
     const btn = document.getElementById('submitBtn');
-    btn.disabled = true; btn.textContent = 'Submitting...';
+    btn.disabled = true; btn.textContent = 'Checking...';
+
+    // Duplicate phone guard — check drivers table first
+    const fullPhoneCheck = '+1' + phone.replace(/\D/g,'');
     try {
-      const res = await fetch(`${SB_URL}/rest/v1/marketing_leads`, {
+      const chkRes = await fetch(
+        `${SB_URL}/rest/v1/drivers?phone=eq.${encodeURIComponent(fullPhoneCheck)}&select=driver_id&limit=1`,
+        { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } }
+      );
+      if (chkRes.ok) {
+        const chkData = await chkRes.json();
+        if (chkData.length > 0) {
+          showErr('This number is already registered in the system. Please try a different number.');
+          btn.disabled = false; btn.textContent = 'Apply to Drive →';
+          return;
+        }
+      }
+    } catch(e) { /* RLS blocks SELECT — proceed normally */ }
+
+    btn.textContent = 'Submitting...';
+    try {
+      const res = await fetch('/.netlify/functions/submit-lead', {
         method: 'POST',
-        headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'resolution=ignore-duplicates,return=minimal' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contact_name:  name,
           phone:         '+1' + phone.replace(/\D/g,''),
@@ -741,7 +795,7 @@
           message:       `type:${type} | CASL:YES | GPS:${_gps ? `${_gps.lat.toFixed(4)},${_gps.lng.toFixed(4)}` : 'none'} | gift:${_giftClicked}`,
         })
       });
-      if (!res.ok && res.status !== 201 && res.status !== 409) throw new Error();
+      if (!res.ok) throw new Error();
       _submittedPhone = phone;
       _submittedName  = name;
       _submittedType  = type;
@@ -784,6 +838,7 @@
   }
 
   async function downloadApp(platform) {
+    _downloadClicked = true;
     track('app_download_selected', { platform });
 
     // Pre-save into drivers table so OTP + registration work on arrival
@@ -798,12 +853,11 @@
           'Prefer':         'resolution=ignore-duplicates,return=minimal',
         },
         body: JSON.stringify({
-          full_name:           _submittedName,
+          driver_name:         _submittedName,
           phone:               fullPhone,
           company_name:        _submittedType === 'owner_operator' ? 'Owner-Operator' : (_submittedType === 'company' ? 'Company Driver' : null),
           is_verified:         false,
           availability_status: 'offline',
-          source:              `landing:${platform}`,
         }),
       });
       track('driver_pre_registered', { platform });
@@ -817,15 +871,39 @@
     closeDownloadModal();
   }
 
-  function skipDownload() {
+  async function skipDownload() {
     track('download_skipped', {});
+    document.getElementById('dlSkipBtn').disabled = true;
+    document.getElementById('dlSkipBtn').textContent = 'Sending code...';
+
+    // Pre-register in drivers + send OTP in one server-side call
+    try {
+      const fullPhone = '+1' + _submittedPhone.replace(/\D/g,'');
+      const res = await fetch('/.netlify/functions/skip-path', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          driver_name:  _submittedName,
+          phone:        fullPhone,
+          company_name: _submittedType === 'owner_operator' ? 'Owner-Operator' : (_submittedType === 'company' ? 'Company Driver' : null),
+        }),
+      });
+      if (!res.ok) throw new Error();
+    } catch(e) {
+      console.warn('[skip-path] failed:', e);
+    }
+
     closeDownloadModal();
   }
 
   function closeDownloadModal() {
     document.getElementById('downloadModal').classList.remove('open');
     document.body.style.overflow = '';
-    showPostSubmitState();
+    if (_downloadClicked) {
+      showPostSubmitState();
+    } else {
+      showOtpScreen();
+    }
   }
 
   function showPostSubmitState() {
@@ -838,6 +916,84 @@
       track('quote_optin_confirm_shown', { driver_type: _submittedType });
     } else {
       document.getElementById('formSuccessSimple').style.display = 'block';
+    }
+  }
+
+  // ── OTP verification (fires when driver skips download) ──────
+  let _otpResendTimer = null;
+
+  function showOtpScreen() {
+    const masked = _submittedPhone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    document.getElementById('otpPhoneDisplay').textContent = masked;
+    document.getElementById('otpWrap').style.display = 'block';
+    document.getElementById('otpInput').focus();
+    startOtpCountdown();
+    track('otp_screen_shown', {});
+  }
+
+  function startOtpCountdown() {
+    let secs = 30;
+    document.getElementById('otpResendTimer').style.display = 'inline';
+    document.getElementById('otpResendLink').style.display  = 'none';
+    document.getElementById('otpCountdown').textContent = secs;
+    if (_otpResendTimer) clearInterval(_otpResendTimer);
+    _otpResendTimer = setInterval(() => {
+      secs--;
+      document.getElementById('otpCountdown').textContent = secs;
+      if (secs <= 0) {
+        clearInterval(_otpResendTimer);
+        document.getElementById('otpResendTimer').style.display = 'none';
+        document.getElementById('otpResendLink').style.display  = 'inline';
+      }
+    }, 1000);
+  }
+
+  async function resendOTP() {
+    document.getElementById('otpResendLink').style.display = 'none';
+    document.getElementById('otpErr').textContent = '';
+    try {
+      const fullPhone = '+1' + _submittedPhone.replace(/\D/g,'');
+      await fetch('/.netlify/functions/skip-path', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ driver_name: _submittedName, phone: fullPhone, resend_only: true }),
+      });
+    } catch(e) {}
+    startOtpCountdown();
+    track('otp_resend', {});
+  }
+
+  async function verifyOTP() {
+    const code = document.getElementById('otpInput').value.trim();
+    const errEl = document.getElementById('otpErr');
+    errEl.textContent = '';
+    if (code.length < 6) { errEl.textContent = 'Please enter the full 6-digit code.'; return; }
+
+    const btn = document.getElementById('otpVerifyBtn');
+    btn.disabled = true; btn.textContent = 'Verifying...';
+
+    try {
+      const fullPhone = '+1' + _submittedPhone.replace(/\D/g,'');
+      const res = await fetch(`${SB_URL}/rest/v1/rpc/verify_driver_code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` },
+        body: JSON.stringify({ p_phone: fullPhone, p_code: code }),
+      });
+      const data = await res.json();
+      if (data && data.success) {
+        track('otp_verified', {});
+        document.getElementById('otpWrap').style.display = 'none';
+        showPostSubmitState();
+      } else {
+        errEl.textContent = 'Incorrect code. Try again or request a new one.';
+        document.getElementById('otpInput').value = '';
+        document.getElementById('otpInput').focus();
+        btn.disabled = false; btn.textContent = 'Confirm →';
+        track('otp_failed', {});
+      }
+    } catch(e) {
+      errEl.textContent = 'Something went wrong. Please try again.';
+      btn.disabled = false; btn.textContent = 'Confirm →';
     }
   }
 
