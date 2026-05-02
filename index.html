@@ -1022,14 +1022,14 @@
           window.location.href = `https://rintowquote.online?${params.toString()}`;
         } else {
           // Show success + send follow-up SMS via edge function
-          fetch(`${SB_URL}/functions/v1/send-driver-sms`, {
+         fetch(`${SB_URL}/functions/v1/send-driver-sms`, {
             method: 'POST',
             headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}` },
             body: JSON.stringify({
               phone: fullPhone,
-              message: `Hi ${_submittedName.split(' ')[0]}! Your RIN Driver application is confirmed ✓\n\nWant to check job payouts before you move? Get your free quote tools here: https://rintowquote.online\n\n— RIN Driver Network`,
+              message: `Hi ${_submittedName.split(' ')[0]}! Your RIN Driver application is confirmed ✓\n\nWant to check job payouts before you move? Get your free quote tools: https://rintowquote.online\n\n— RIN Driver Network\n\nThank you for your support.`,
             }),
-          }).catch(()=>{});
+          }).catch(()=>{}); 
           document.getElementById('formSuccessSimple').style.display = 'block';
         }
       } else {
