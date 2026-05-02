@@ -566,7 +566,8 @@
         <p style="font-size:13px;color:var(--text2);margin-bottom:6px;line-height:1.5;">
           We sent a 6-digit code to<br><strong id="otpPhoneDisplay" style="color:var(--text);"></strong>
         </p>
-        <p style="font-size:12px;color:var(--text3);margin-bottom:20px;">Check your texts — code expires in 10 min.</p>
+        <p style="font-size:12px;color:var(--green);font-weight:600;margin-bottom:6px;">✓ Your application has been received</p>
+        <p style="font-size:12px;color:var(--text3);margin-bottom:20px;">An SMS will be sent to confirm your number before we review your application. Code expires in 10 min.</p>
         <input id="otpInput" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="6"
           placeholder="000000"
           style="width:150px;text-align:center;font-size:28px;letter-spacing:8px;padding:14px 10px;background:var(--bg3);border:2px solid var(--bd2);border-radius:12px;color:var(--text);font-family:'Inter',sans-serif;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto;"
@@ -801,8 +802,23 @@
       _submittedType  = type;
       _wantsQuoteTool = document.getElementById('chk_quote').checked;
       track('form_submit', { driver_type: type, gift_source: _giftClicked, has_gps: !!_gps, quote_optin: _wantsQuoteTool });
+
+      // Send OTP immediately
+      try {
+        const fullPhone = '+1' + phone.replace(/\D/g,'');
+        await fetch('/.netlify/functions/skip-path', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            driver_name:  name,
+            phone:        fullPhone,
+            company_name: type === 'owner_operator' ? 'Owner-Operator' : (type === 'company' ? 'Company Driver' : null),
+          }),
+        });
+      } catch(e) { console.warn('[otp-send] failed:', e); }
+
       document.getElementById('formWrap').style.display = 'none';
-      showDownloadModal();
+      showOtpScreen();
     } catch(e) {
       showErr('Something went wrong. Please text 647-473-1338 directly.');
       btn.disabled = false; btn.textContent = 'Apply to Drive →';
@@ -923,7 +939,8 @@
   let _otpResendTimer = null;
 
   function showOtpScreen() {
-    const masked = _submittedPhone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    const digits = _submittedPhone.replace(/\D/g,'');
+    const masked = digits.length === 10 ? `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}` : _submittedPhone;
     document.getElementById('otpPhoneDisplay').textContent = masked;
     document.getElementById('otpWrap').style.display = 'block';
     document.getElementById('otpInput').focus();
@@ -982,8 +999,53 @@
       const data = await res.json();
       if (data && data.success) {
         track('otp_verified', {});
+
+        // Log confirmed application with timestamp
+        const fullPhone = '+1' + _submittedPhone.replace(/\D/g,'');
+        const typeLabels = { independent: 'Independent / Freelance', company: 'Company Driver', owner_operator: 'Owner-Operator' };
+        fetch(`${SB_URL}/rest/v1/marketing_events`, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'return=minimal' },
+          body: JSON.stringify({
+            event_name:   'application_otp_confirmed',
+            session_id:   _sid,
+            page:         '/drive-my-own',
+            phone:        fullPhone,
+            contact_name: _submittedName,
+            gps_lat:      _gps ? _gps.lat : null,
+            gps_lng:      _gps ? _gps.lng : null,
+            meta: {
+              driver_type:     _submittedType,
+              wants_quote_tool: _wantsQuoteTool,
+              casl_consent:    true,
+              confirmed_at:    new Date().toISOString(),
+            },
+          }),
+        }).catch(()=>{});
+
         document.getElementById('otpWrap').style.display = 'none';
-        showPostSubmitState();
+
+        if (_wantsQuoteTool) {
+          // Redirect to rintowquote.online with pre-filled params
+          const params = new URLSearchParams({
+            phone: _submittedPhone.replace(/\D/g,''),
+            name:  _submittedName,
+            type:  _submittedType,
+            mode:  'register',
+          });
+          window.location.href = `https://rintowquote.online?${params.toString()}`;
+        } else {
+          // Show success + send follow-up SMS via edge function
+          fetch(`${SB_URL}/functions/v1/send-driver-sms`, {
+            method: 'POST',
+            headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}` },
+            body: JSON.stringify({
+              phone: fullPhone,
+              message: `Hi ${_submittedName.split(' ')[0]}! Your RIN Driver application is confirmed ✓\n\nWant to check job payouts before you move? Get your free quote tools here: https://rintowquote.online\n\n— RIN Driver Network`,
+            }),
+          }).catch(()=>{});
+          document.getElementById('formSuccessSimple').style.display = 'block';
+        }
       } else {
         errEl.textContent = 'Incorrect code. Try again or request a new one.';
         document.getElementById('otpInput').value = '';
