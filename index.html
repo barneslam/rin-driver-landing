@@ -782,47 +782,33 @@
       }
     } catch(e) { /* RLS blocks SELECT — proceed normally */ }
 
-    btn.textContent = 'Submitting...';
+    btn.textContent = 'Sending code...';
+
+    _submittedPhone = phone;
+    _submittedName  = name;
+    _submittedType  = type;
+    _wantsQuoteTool = document.getElementById('chk_quote').checked;
+
+    track('form_submit', { driver_type: type, gift_source: _giftClicked, has_gps: !!_gps, quote_optin: _wantsQuoteTool });
+
+    // Send OTP + pre-register driver
+    const fullPhone = '+1' + phone.replace(/\D/g,'');
     try {
-      const res = await fetch('/.netlify/functions/submit-lead', {
+      await fetch('/.netlify/functions/skip-path', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contact_name:  name,
-          phone:         '+1' + phone.replace(/\D/g,''),
-          inquiry_type:  'driver_applicant',
-          page:          '/drive-my-own',
-          referrer:      document.referrer || null,
-          message:       `type:${type} | CASL:YES | GPS:${_gps ? `${_gps.lat.toFixed(4)},${_gps.lng.toFixed(4)}` : 'none'} | gift:${_giftClicked}`,
-        })
+          driver_name:  name,
+          phone:        fullPhone,
+          company_name: type === 'owner_operator' ? 'Owner-Operator' : (type === 'company' ? 'Company Driver' : null),
+        }),
       });
-      if (!res.ok) throw new Error();
-      _submittedPhone = phone;
-      _submittedName  = name;
-      _submittedType  = type;
-      _wantsQuoteTool = document.getElementById('chk_quote').checked;
-      track('form_submit', { driver_type: type, gift_source: _giftClicked, has_gps: !!_gps, quote_optin: _wantsQuoteTool });
+    } catch(e) { console.warn('[otp-send] failed:', e); }
 
-      // Send OTP immediately
-      try {
-        const fullPhone = '+1' + phone.replace(/\D/g,'');
-        await fetch('/.netlify/functions/skip-path', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            driver_name:  name,
-            phone:        fullPhone,
-            company_name: type === 'owner_operator' ? 'Owner-Operator' : (type === 'company' ? 'Company Driver' : null),
-          }),
-        });
-      } catch(e) { console.warn('[otp-send] failed:', e); }
-
-      document.getElementById('formWrap').style.display = 'none';
-      showOtpScreen();
-    } catch(e) {
-      showErr('Something went wrong. Please text 647-473-1338 directly.');
-      btn.disabled = false; btn.textContent = 'Apply to Drive →';
-    }
+    document.getElementById('formWrap').style.display = 'none';
+    showOtpScreen();
+    btn.disabled = false;
+    btn.textContent = 'Apply to Drive →';
   }
 
   function showErr(msg) {
