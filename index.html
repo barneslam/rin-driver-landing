@@ -1027,7 +1027,7 @@
             headers: { 'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}` },
             body: JSON.stringify({
               phone: fullPhone,
-              message: `Hi ${_submittedName.split(' ')[0]}! Your RIN Driver application is confirmed ✓\n\nWant to check job payouts before you move? Get your free quote tools: https://rintowquote.online\n\n— RIN Driver Network\n\nThank you for your support.`,
+              message: `Hi ${_submittedName.split(' ')[0]}! Your RIN Driver application is confirmed ✓\n\nWant to check job payouts before you move? Get your free quote tools: https://rintowquote.online\n\nThank you for your support.\n\n— RIN Driver Network`,
             }),
           }).catch(()=>{}); 
           document.getElementById('formSuccessSimple').style.display = 'block';
